@@ -6,41 +6,45 @@ let children = 0
 // the adults and children variables defined above.
 // Start with the occupancy function.
 
-function occupancy1(){
-  return {adults, children};
-}
-function enter1(numAdults, numChildren){
-  if(numChildren> numAdults || numChildren < 0 || numAdults < 0){
+
+function enter(numAdults, numChildren){
+  // Check if there are enough adults for every child entering.
+  if(numChildren >numAdults || numAdults <= 0){
+// Not enough adults or no adults at all.
     return false;
   }
+  // Update the total count of adults and children inside.
 adults += numAdults;
 children += numChildren;
 return true; 
 }
 
-function leave1(numAdults, numChildren){
-  if (numAdults > adults || numChildren > children || numChildren > numAdults){
+function leave(numAdults, numChildren){
+  //Check for attempting to leave with more adults or children than are present.
+  if (numAdults > adults || numChildren > children){
     return false;
   }
+  //Ensure no child leaves unattended
+    if (numChildren > numAdults){
+      return false;
+    }
+    //Ensure that if children remain, they are adequately supervised
+if (children - numChildren > 0 && (adults - numAdults) < (children - numChildren)){
+  return false;
+}
+// Update the counts upon succesful
   adults -= numAdults;
   children -= numChildren;
   return true;
 }
-
-console.log(enter1(2, 1));
-console.log(occupancy1());
-console.log(leave1(1, 1));
-console.log(occupancy1());
-
-
-
-
-
+function occupancy(){
+  return {adults, children};
+}
 
 
 // TODO: Change the undefined values below to the name of your functions
 module.exports = {
-  enter: enter1,
-  leave: leave1,
-  occupancy: occupancy1
+  enter,
+  leave,
+  occupancy
 }
